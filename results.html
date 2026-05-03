@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Verification Result</title>
+<style>
+body { font-family: Arial; text-align: center; padding: 50px; }
+img { max-width: 400px; margin: 20px 0; }
+</style>
+</head>
+<body>
+<h1>Authentication Result</h1>
+<p id="result">Looking up your item...</p>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const code = urlParams.get('code');
+
+const database = {
+  "12345": {
+    name: "Original Painting",
+    artist: "John Smith",
+    date: "2024-01-15",
+    description: "Hand-signed limited edition",
+    status: "Authenticated",
+    image: "images/painting.jpg"
+  },
+  "67890": {
+    name: "Sketch Book",
+    artist: "Maria Lopez",
+    date: "2023-05-20",
+    description: "Pencil sketch on paper",
+    status: "Authenticated",
+    image: "images/sketch.jpg"
+  }
+};
+
+const item = database ;
+if (item) {
+  document.getElementById("result").innerHTML = `
+    <strong>${item.name}</strong><br>
+    Artist: ${item.artist}<br>
+    Date: ${item.date}<br>
+    Description: ${item.description}<br>
+    Status: ${item.status}<br><br>
+    <img src="${item.image}" alt="${item.name}">
+  `;
+} else {
+  document.getElementById("result").innerHTML = "Code not found.";
+}
+</script>
+</body>
+</html>

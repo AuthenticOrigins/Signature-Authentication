@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Signature Verify</title>
+<style>
+body { font-family: Arial; text-align: center; padding: 50px; }
+input { padding: 15px; font-size: 20px; width: 300px; }
+button { padding: 15px 30px; font-size: 20px; margin-left: 10px; }
+</style>
+</head>
+<body>
+<h1>Enter Authentication Number</h1>
+<input type="text" id="code" placeholder="Type number here">
+<button onclick="checkCode()">Verify</button>
+<p id="message"></p>
+<script>
+function checkCode() {
+  let code = document.getElementById("code").value;
+  if (code) {
+    window.location.href = "results.html?code=" + code;
+  }
+}
+</script>
+</body>
+</html>
