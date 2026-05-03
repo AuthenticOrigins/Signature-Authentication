@@ -33,19 +33,24 @@ const database = {
   }
 };
 
-const item = database ;
-if (item) {
-  document.getElementById("result").innerHTML = `
-    <strong>${item.name}</strong><br>
-    Artist: ${item.artist}<br>
-    Date: ${item.date}<br>
-    Description: ${item.description}<br>
-    Status: ${item.status}<br><br>
-    <img src="${item.image}" alt="${item.name}">
-  `;
+if (!code) {
+  document.getElementById("result").innerHTML = "No number entered.";
 } else {
-  document.getElementById("result").innerHTML = "Code not found.";
+  const item = database[code];
+  
+  if (item) {
+    document.getElementById("result").innerHTML = `
+      <h2>${item.name}</h2>
+      <p><strong>Artist:</strong> ${item.artist}</p>
+      <p><strong>Date:</strong> ${item.date}</p>
+      <p><strong>Description:</strong> ${item.description}</p>
+      <p><strong>Status:</strong> <span style="color:green;">${item.status}</span></p>
+      <br>
+      <img src="${item.image}" alt="${item.name}" style="max-width:500px; border:2px solid #ddd; border-radius:8px;">
+    `;
+  } else {
+    document.getElementById("result").innerHTML = `<strong>Code "${code}" not found.</strong><br><br>Please check the number and try again.`;
+  }
 }
-</script>
-</body>
+</script></body>
 </html>
