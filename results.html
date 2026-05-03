@@ -14,43 +14,56 @@ img { max-width: 400px; margin: 20px 0; }
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('code');
 
-const database = {
-  "12345": {
-    name: "Original Painting",
-    artist: "John Smith",
-    date: "2024-01-15",
-    description: "Hand-signed limited edition",
-    status: "Authenticated",
-    image: "/images/painting.jpg"
-  },
-  "67890": {
-    name: "Sketch Book",
-    artist: "Maria Lopez",
-    date: "2023-05-20",
-    description: "Pencil sketch on paper",
-    status: "Authenticated",
-    image: "/images/sketch.jpg"
-  }
-};
-
-if (!code) {
-  document.getElementById("result").innerHTML = "No number entered.";
-} else {
-  const item = database[code];
+async function loadItem() {
+  const resultDiv = document.getElementById("result");
   
-  if (item) {
-    document.getElementById("result").innerHTML = `
-      <h2>${item.name}</h2>
-      <p><strong>Artist:</strong> ${item.artist}</p>
-      <p><strong>Date:</strong> ${item.date}</p>
-      <p><strong>Description:</strong> ${item.description}</p>
-      <p><strong>Status:</strong> <span style="color:green;">${item.status}</span></p>
-      <br>
-      <img src="${item.image}" alt="${item.name}" style="max-width:500px; border:2px solid #ddd; border-radius:8px;">
-    `;
-  } else {
-    document.getElementById("result").innerHTML = `<strong>Code "${code}" not found.</strong><br><br>Please check the number and try again.`;
+  if (!code) {
+    resultDiv.innerHTML = "No number entered.";
+    return;
+  }
+
+  try {
+    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQIRLwNQAoKRJOzJP4LEILfMaL6yb_p7fOO1q7z9QAJfPsWP4yZ8BqdgXAZvaIh4djkjMo8cH94Re1H/pub?output=csv');
+    const csvText = await response.text();
+    
+    const rows = csvText.trim().split('\n');
+    const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+    
+    let item = null;
+    
+    for (let i = 1; i < rows.length; i++) {
+      const values = rows[i].split(',').map(v => v.trim().replace(/"/g, ''));
+      if (values[0] === code) {
+        item = {
+          name: values[1] || "Unknown",
+          artist: values[2] || "",
+          date: values[3] || "",
+          description: values[4] || "",
+          status: values[5] || "Authenticated",
+          image: values[6] || ""
+        };
+        break;
+      }
+    }
+
+    if (item) {
+      resultDiv.innerHTML = `
+        <h2>${item.name}</h2>
+        <p><strong>Artist:</strong> ${item.artist}</p>
+        <p><strong>Date:</strong> ${item.date}</p>
+        <p><strong>Description:</strong> ${item.description}</p>
+        <p><strong>Status:</strong> <span style="color:green; font-weight:bold;">${item.status}</span></p>
+        <br>
+        ${item.image ? `<img src="${item.image}" alt="${item.name}" style="max-width:500px; border:2px solid #ddd; border-radius:8px;">` : ''}
+      `;
+    } else {
+      resultDiv.innerHTML = `<strong>Code "${code}" not found.</strong><br><br>Please check the number and try again.`;
+    }
+  } catch (error) {
+    resultDiv.innerHTML = "Error loading database. Please try again later.";
   }
 }
+
+loadItem();
 </script></body>
 </html>
