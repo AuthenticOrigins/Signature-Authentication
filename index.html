@@ -1,25 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Signature Verify</title>
-<style>
-body { font-family: Arial; text-align: center; padding: 50px; }
-input { padding: 15px; font-size: 20px; width: 300px; }
-button { padding: 15px 30px; font-size: 20px; margin-left: 10px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentic Origins • Signature Verification</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #333;
+            text-align: center;
+        }
+        header {
+            background: #1a1a1a;
+            color: white;
+            padding: 2rem 1rem;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        input {
+            padding: 18px;
+            font-size: 1.3rem;
+            width: 320px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+        }
+        button {
+            padding: 18px 40px;
+            font-size: 1.3rem;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .footer {
+            margin-top: 80px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-<h1>Enter Authentication Number</h1>
-<input type="text" id="code" placeholder="Type number here">
-<button onclick="checkCode()">Verify</button>
-<p id="message"></p>
-<script>
-function checkCode() {
-  let code = document.getElementById("code").value;
-  if (code) {
-    window.location.href = "results.html?code=" + code;
-  }
-}
-</script>
+    <header>
+        <h1 class="logo">AUTHENTIC ORIGINS</h1>
+        <p class="tagline">Official Signature Authentication • Secure Verification System</p>
+    </header>
+
+    <div class="container">
+        <h1>Verify Authenticity</h1>
+        <p>Enter the authentication number provided with your artwork</p>
+        
+        <input type="text" id="code" placeholder="Enter code here (e.g. 12345)" autofocus>
+        <button onclick="checkCode()">Verify Now</button>
+
+        <p id="message" style="margin-top: 20px; font-weight: bold;"></p>
+    </div>
+
+    <div class="footer">
+        © Authentic Origins • All authentications are tamper-proof and blockchain-backed
+    </div>
+
+    <script>
+        function checkCode() {
+            let code = document.getElementById("code").value.trim();
+            const message = document.getElementById("message");
+            
+            if (code === "") {
+                message.style.color = "red";
+                message.textContent = "Please enter an authentication number";
+            } else {
+                message.style.color = "green";
+                message.textContent = "Searching...";
+                window.location.href = "results.html?code=" + encodeURIComponent(code);
+            }
+        }
+
+        // Allow pressing Enter key
+        document.getElementById("code").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") checkCode();
+        });
+    </script>
 </body>
 </html>
