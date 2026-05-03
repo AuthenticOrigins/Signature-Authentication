@@ -13,54 +13,58 @@ img { max-width: 400px; margin: 20px 0; }
 <script>
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('code');
+const resultDiv = document.getElementById("result");
 
 async function loadItem() {
-  const resultDiv = document.getElementById("result");
-  
   if (!code) {
     resultDiv.innerHTML = "No number entered.";
     return;
   }
 
+  resultDiv.innerHTML = "🔍 Searching database...";
+
   try {
     const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQIRLwNQAoKRJOzJP4LEILfMaL6yb_p7fOO1q7z9QAJfPsWP4yZ8BqdgXAZvaIh4djkjMo8cH94Re1H/pub?output=csv');
     const csvText = await response.text();
+
+    // Split into lines
+    const lines = csvText.trim().split('\n');
     
-    const rows = csvText.trim().split('\n');
-    const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+    // Find the row with matching code (skip header)
+    let found = false;
     
-    let item = null;
-    
-    for (let i = 1; i < rows.length; i++) {
-      const values = rows[i].split(',').map(v => v.trim().replace(/"/g, ''));
-      if (values[0] === code) {
-        item = {
-          name: values[1] || "Unknown",
-          artist: values[2] || "",
-          date: values[3] || "",
-          description: values[4] || "",
-          status: values[5] || "Authenticated",
-          image: values[6] || ""
-        };
+    for (let i = 1; i < lines.length; i++) {
+      // Simple split - assuming no commas inside fields for now
+      const columns = lines[i].split(',');
+      
+      if (columns[0].trim() === code.trim()) {
+        const name = columns[1] ? columns[1].replace(/"/g, '') : "Unknown";
+        const artist = columns[2] ? columns[2].replace(/"/g, '') : "";
+        const date = columns[3] ? columns[3].replace(/"/g, '') : "";
+        const description = columns[4] ? columns[4].replace(/"/g, '') : "";
+        const status = columns[5] ? columns[5].replace(/"/g, '') : "Authenticated";
+        const image = columns[6] ? columns[6].replace(/"/g, '') : "";
+
+        resultDiv.innerHTML = `
+          <h2>${name}</h2>
+          <p><strong>Artist:</strong> ${artist}</p>
+          <p><strong>Date:</strong> ${date}</p>
+          <p><strong>Description:</strong> ${description}</p>
+          <p><strong>Status:</strong> <span style="color:green; font-weight:bold;">${status}</span></p>
+          <br>
+          ${image ? `<img src="${image}" alt="${name}" style="max-width:500px; border:2px solid #ddd; border-radius:8px;">` : ''}
+        `;
+        found = true;
         break;
       }
     }
 
-    if (item) {
-      resultDiv.innerHTML = `
-        <h2>${item.name}</h2>
-        <p><strong>Artist:</strong> ${item.artist}</p>
-        <p><strong>Date:</strong> ${item.date}</p>
-        <p><strong>Description:</strong> ${item.description}</p>
-        <p><strong>Status:</strong> <span style="color:green; font-weight:bold;">${item.status}</span></p>
-        <br>
-        ${item.image ? `<img src="${item.image}" alt="${item.name}" style="max-width:500px; border:2px solid #ddd; border-radius:8px;">` : ''}
-      `;
-    } else {
-      resultDiv.innerHTML = `<strong>Code "${code}" not found.</strong><br><br>Please check the number and try again.`;
+    if (!found) {
+      resultDiv.innerHTML = `<strong>Code "${code}" not found.</strong><br><br>Make sure this exact code exists in your Google Sheet (Row 2+).`;
     }
   } catch (error) {
-    resultDiv.innerHTML = "Error loading database. Please try again later.";
+    console.error(error);
+    resultDiv.innerHTML = "Could not load database.<br>Try refreshing or check your Google Sheet is published.";
   }
 }
 
