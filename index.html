@@ -11,12 +11,13 @@
             padding: 0;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             color: #333;
-            text-align: center;
+            line-height: 1.6;
         }
         header {
             background: #1a1a1a;
             color: white;
             padding: 2rem 1rem;
+            text-align: center;
         }
         .logo-img {
             max-width: 280px;
@@ -26,25 +27,23 @@
         .tagline {
             font-size: 1.1rem;
             opacity: 0.9;
-            margin-top: 0.5rem;
         }
         .container {
-            max-width: 700px;
-            margin: 60px auto;
-            padding: 40px 20px;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .verify-card {
             background: white;
+            padding: 40px 30px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 60px;
         }
         h1 {
             font-size: 2.2rem;
             margin-bottom: 10px;
-            color: #1a1a1a;
-        }
-        p {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 30px;
         }
         input {
             padding: 18px;
@@ -64,14 +63,32 @@
             cursor: pointer;
             margin-left: 12px;
         }
-        button:hover {
-            background: #218838;
+        button:hover { background: #218838; }
+
+        .about {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: left;
         }
+        .about h2 {
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+        }
+        .about p {
+            margin-bottom: 18px;
+        }
+
         .footer {
-            margin-top: 80px;
-            padding: 20px;
+            text-align: center;
+            padding: 30px;
             font-size: 0.9rem;
             color: #777;
+            background: #1a1a1a;
+            color: white;
+            margin-top: 60px;
         }
     </style>
 </head>
@@ -82,18 +99,41 @@
     </header>
 
     <div class="container">
-        <h1>Verify Authenticity</h1>
-        <p>Enter the authentication number provided with your Poster, Photograph or Funko Pop.
-        The number can be found on the actual product, Or on our well known signature card</p>
-        
-        <input type="text" id="code" placeholder="Enter code here (e.g. 12345)" autofocus>
-        <button onclick="checkCode()">Verify Now</button>
+        <!-- Verification Section -->
+        <div class="verify-card">
+            <h1>Verify Authenticity</h1>
+            <p>Enter the authentication number provided with your artwork</p>
+            
+            <input type="text" id="code" placeholder="Enter code here (e.g. 12345)" autofocus>
+            <button onclick="checkCode()">Verify Now</button>
 
-        <p id="message" style="margin-top: 20px; font-weight: bold;"></p>
+            <p id="message" style="margin-top: 20px; font-weight: bold;"></p>
+        </div>
+
+        <!-- About Us Section -->
+        <div class="about">
+            <h2>About Authentic Origins</h2>
+            <p>Welcome to Authentic Origins.</p>
+            
+            <p>Established in 1988, Authentic Origins was originally founded to authenticate major film and entertainment props. In 1998, Marcus Little took over the company from his father and, drawing on his extensive experience in forensic handwriting analysis, transformed it into a respected authentication service for serious collectors, businesses, and autograph dealers.</p>
+            
+            <p>What sets Authentic Origins apart is our uncompromising approach to authentication. We are not an opinion-based service, nor do we rely on guesswork. We maintain strict independence by never selling any items we authenticate — a practice we believe should be standard across the industry, as it eliminates conflicts of interest.</p>
+            
+            <p>Our strength comes from deep industry relationships with actors, entertainment attorneys, talent agencies, publicists, business managers, personal assistants, and security teams. These connections allow us to verify information and detect potential misrepresentations that others might miss.</p>
+            
+            <p>Most uniquely, we offer an elite contract service with a dedicated 20-person team. When possible, one of our specialists personally attends signings to witness the item being signed and applies our official stamp. Every authenticated item must carry our numbered tamper-proof holographic sticker along with our official signature card or stamped documentation. Without these, the item is not considered officially authenticated by Authentic Origins.</p>
+            
+            <p>We may not be the largest or most well-known authentication company, but we take great pride in our meticulous attention to detail, unwavering honesty, and commitment to going above and beyond to establish the truth behind every autograph, poster, photograph, and prop we evaluate.</p>
+            
+            <p>We welcome you to the Authentic Origins family.</p>
+            
+            <p><strong>Marcus Little</strong><br>
+            Chief Executive Officer</p>
+        </div>
     </div>
 
     <div class="footer">
-        © Authentic Origins • All authentications are tamper-proof and blockchain-backed
+        © Authentic Origins • All authentications are tamper-proof and protected
     </div>
 
     <script>
