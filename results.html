@@ -63,6 +63,19 @@
         .back-btn {
             background: #6c757d;
         }
+        .help-section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+        .help-section h3 {
+            color: #1a1a1a;
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
@@ -82,6 +95,14 @@
 
     <button onclick="downloadPDF()">📄 Download Certificate (PDF)</button>
     <button onclick="window.location.href='index.html'" class="back-btn">← Back to Verification</button>
+
+    <!-- New Contact / Need Help Section -->
+    <div class="help-section">
+        <h3>Need Help?</h3>
+        <p>If the authentication number you entered does not return results instantly, please contact us.</p>
+        <p>We can look it up for you the old-fashioned way. Simply <strong>email us</strong> a brief description of your product along with the hologram numbered tamper-proof code from the card or product.</p>
+        <p><strong>Email:</strong> <a href="mailto:info@authenticorigins.cards" style="color:#28a745;">info@authenticorigins.cards</a></p>
+    </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -148,11 +169,7 @@
 
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({
-                orientation: "portrait",
-                unit: "px",
-                format: [800, 1000]
-            });
+            const doc = new jsPDF({ orientation: "portrait", unit: "px", format: [800, 1000] });
 
             doc.setFont("helvetica", "bold");
             doc.setFontSize(28);
@@ -161,7 +178,6 @@
             doc.setFontSize(16);
             doc.text("Authentic Origins • Established 1988", 400, 120, { align: "center" });
 
-            // Copy the details
             const detailsText = document.getElementById("details").innerText;
             doc.setFont("helvetica", "normal");
             doc.setFontSize(14);
@@ -175,7 +191,6 @@
             doc.save(`Authentic-Origins-Certificate-${code || 'Unknown'}.pdf`);
         }
 
-        // Load the item when page loads
         loadItem();
     </script>
 </body>
